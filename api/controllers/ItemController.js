@@ -1,9 +1,14 @@
 var Q = require('q');
 module.exports = {
   multiUpload: function(req, res) {
-    var localDir = require("./libs/uuid.js").setUUID();
+    var localDir = require("./libs/uuid.js").setUUID(),
+        guid = require("./libs/uuid.js").setUUID(),
+        disk = "USER/" + guid + "/";
+
     var fileInfo = {
+      guid: guid,
       localDir: localDir,
+      disk: disk,
       fileInfo: {}
     };
     var params = req.params.all();
@@ -25,11 +30,18 @@ module.exports = {
         end_second1 = new Date().getTime() / 1000;
         start_second2 = new Date().getTime() / 1000;
 
+        return s3Upload(fileInfo);
+
+      })
+      .then(function() {
+
+        end_second2 = new Date().getTime() / 1000;
+
         end_second = new Date().getTime() / 1000;
         sails.log.debug('::::::: SUMMARY ::::::');
         sails.log.debug("total : " + (end_second - start_second));
         sails.log.debug("1.uploadLocal : " + (end_second1 - start_second1));
-        //sails.log.debug("2.initVideo : " + (end_second2 - start_second2));
+        sails.log.debug("2.initVideo : " + (end_second2 - start_second2));
 
         return res.send(200, {"success": true});
       })
@@ -75,5 +87,42 @@ function doUpload(req, fileInfo, file) {
       deferred.reject(err);
     });
 
+  return deferred.promise;
+}
+
+function s3Upload(fileInfo) {
+  var deferred = Q.defer();
+  var S3 = new S3Handler('data');
+  fileInfo.S3 = S3;
+
+  var files = fileInfo.files;
+
+  var promises = [];
+  for (var i = 0; i < files.length; i++) {
+    var promise = doS3Upload(fileInfo, files[i]);
+    promises.push(promise);
+  }
+
+  Q.all(promises)
+    .then(function() {
+      sails.log.debug('s3 uploading done...:: guid---' + fileInfo.guid + ' ::: localDir---' + fileInfo.localDir);
+      deferred.resolve();
+    }, function(err) {
+      sails.log.error('s3 upload failure');
+      deferred.reject(err);
+    });
+
+  return deferred.promise;
+}
+
+function doS3Upload(fileInfo, file) {
+  var deferred = Q.defer();
+  FileService.s3Upload(fileInfo, file)
+    .then(function() {
+      deferred.resolve();
+    })
+    .catch(function(err) {
+      deferred.reject(err);
+    });
   return deferred.promise;
 }

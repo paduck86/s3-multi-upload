@@ -1,7 +1,8 @@
 var Q = require('q');
 var fs = require('fs');
 module.exports = {
-  uploadTemp: uploadTemp
+  uploadTemp: uploadTemp,
+  s3Upload: s3Upload
 };
 
 function uploadTemp(req, fileInfo, file) {
@@ -22,7 +23,7 @@ function uploadTemp(req, fileInfo, file) {
       /*pow = parseInt(Math.floor(Math.log(bytes) / Math.log(1024))),
        size = (bytes / Math.pow(1024, pow)).toFixed(2);*/
 
-      fileInfo.fileInfo[file] = {
+      fileInfo[file] = {
         fd : fd,
         ext : ext,
         size : size
@@ -40,4 +41,23 @@ function uploadTemp(req, fileInfo, file) {
   });
 
   return deferred.promise;
+}
+
+function s3Upload(fileInfo, file) {
+  var deferred = Q.defer(),
+      s3Dir = fileInfo.disk,
+      s3Path = s3Dir + file,
+      localPath = fileInfo[file].fd;
+
+  fileInfo.S3.upload(localPath, s3Path, function(err, result) {
+    if (err) {
+      err = new Error('S3 upload failure...');
+      deferred.reject(err);
+    } else {
+      deferred.resolve();
+    }
+  });
+
+  return deferred.promise;
+
 }
