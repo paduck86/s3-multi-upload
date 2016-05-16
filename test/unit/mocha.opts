@@ -1,0 +1,4 @@
+--timeout 10s
+test/unit/controller/ClientController.test.js
+test/unit/controller/FittingController.test.js
+

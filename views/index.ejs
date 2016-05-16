@@ -1,0 +1,39 @@
+
+<!--<script src=/sha256.js></script>-->
+<!--<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {''
+    $.ajax({
+      url:'/verifyCode/update',
+      data: {key : '67b56db3-b6a3-423f-8414-b7574dcd1fc0'},
+      method: 'POST',
+      success:function(data){
+        $('#verify_code').val(data.code);
+      }, error:function(request,status,error){
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+      }
+    })
+  });
+
+</script>-->
+<form  method="post" action="/upload" enctype="multipart/form-data" id="form">
+  <!--<h2>Add Video</h2>
+  <label>AccountUuid</label> <input id="account_uuid" name="account_uuid" value='67b56db3-b6a3-423f-8414-b7574dcd1fc0' style="width:500px"> <br>
+  <label>Secret</label> <input id="secret" name="secret" value='Ue0pIsIn/MrLW5HFKBWwAQ8fdoAMYtL0irZbQSQlmIg=' style="width:500px"> <br>
+  <label>VerifyCode</label> <input id="verify_code" name="verify_code" value=''> <br>
+  <label>VideoSex</label> <select name="video_sex"><option value="woman" selected>woman</option><option value="man">man</option></select> <br>
+  <label>Video.mp4</label> <input type="file" name="video" id="video"> <br>
+  <label>Animation.bin</label> <input type="file" name="animation" id="animation"> <br>
+  <label>Capture.png</label> <input type="file" name="capture" id="capture"> <br>
+  <label>Background.png</label> <input type="file" name="background" id="background"> <br>
+
+  <br>-->
+
+  <input type="submit" value="Add" id="add" >
+  <br>
+
+
+
+
+
+</form>
