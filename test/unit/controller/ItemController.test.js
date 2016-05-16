@@ -40,15 +40,15 @@ function testA0() {
   });
 }
 
-function testB1() {
+function testA1() {
   describe('=== A.1 Png 등록 테스트 === \n', function () {
-    it('A.1.1 Png 등록 1000개', function(done) {
-      this.timeout(300000);
+    it('A.1.1 Png 등록 1개', function(done) {
+      this.timeout(30000);
 
-      for(var i = 0; i < 1000; i++) {
-        testSetReqModel.fileInfo['file' + i] = '/Users/jeongjinseok/Downloads/Photo.png';
-        testSetReqModel.files.push('file' + i);
-      }
+      testSetReqModel.fileInfo = {};
+      testSetReqModel.files = [];
+      testSetReqModel.fileInfo['file0'] = '/Users/jeongjinseok/Downloads/Photo.png';
+      testSetReqModel.files.push('file0');
 
       reqSetPng(
         testSetReqModel,
@@ -65,7 +65,35 @@ function testB1() {
         }
       );
     });
+
+    it('A.1.2 Png 등록 1000개', function (done) {
+      this.timeout(3000000);
+
+      testSetReqModel.fileInfo = {};
+      testSetReqModel.files = [];
+      for (var i = 0; i < 1000; i++) {
+        testSetReqModel.fileInfo['file' + i] = '/Users/jeongjinseok/Downloads/Photo.png';
+        testSetReqModel.files.push('file' + i);
+      }
+
+      reqSetPng(
+        testSetReqModel,
+        200,
+        'A.1.2 Png 등록 ERROR: ',
+        function (body) {
+          assertSetVideoCallback(body);
+        }
+      ).then(
+        function (data) {
+          testSetResModel = data;
+          sails.log.debug('A.1.2 body:', testSetResModel);
+          done();
+        }
+      );
+    });
+
   });
+
 }
 
 function assignBasicModule() {

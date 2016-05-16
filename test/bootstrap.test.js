@@ -31,21 +31,5 @@ before(function(done) {
 });
 
 after(function(done) {
-  // here you can clear fixtures, etc.
-  this.timeout(5000);
-  request(sails.hooks.http.app)
-    .get( require("./util/RequestService.js").API_URL.SIGN_OUT )
-    .send()
-    .end(function(err, res){
-      if (err){
-        sails.log.debug('Logout Error' , err);
-        throw err;
-      }
-
-      setTimeout(function(){
-        Sails.lower(done);
-        console.log('==========================>sails lift end');
-      },1500);
-    });
-
+  done();
 });

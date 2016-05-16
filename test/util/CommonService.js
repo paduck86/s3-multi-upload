@@ -78,7 +78,7 @@ function postTestAPI(opt) {
 }
 
 function postMultipartTestAPI(opt) {
-  sails.log.debug('reqTestAPI opt: ', opt);
+  //sails.log.debug('reqTestAPI opt: ', opt);
   var deferred = Q.defer();
 
   var app = opt.r(sails.hooks.http.app).post(opt.url);
@@ -90,7 +90,7 @@ function postMultipartTestAPI(opt) {
         throw err;
       }
 
-      checkDebug(res.body, opt.expectStatus);
+      //checkDebug(res.body, opt.expectStatus);
       if(opt.assertCallback && opt.expectStatus===200) {
         opt.assertCallback(res.body);
       }
@@ -138,6 +138,7 @@ function setFieldsNFiles(app, opt) {
       }
     }
   }
+  app.field('filesLength', files.length);
 
   if(files && files.length > 0 && fileInfo) {
     for (var i = 0; i < files.length ; i++) {
