@@ -42,7 +42,7 @@ function testA0() {
 
 function testA1() {
   describe('=== A.1 Png 등록 테스트 === \n', function () {
-    it('A.1.1 Png 등록 1개', function(done) {
+    /*it('A.1.1 Png 등록 1개', function(done) {
       this.timeout(30000);
 
       testSetReqModel.fileInfo = {};
@@ -64,16 +64,21 @@ function testA1() {
           done();
         }
       );
-    });
+    });*/
 
     it('A.1.2 Png 등록 1000개', function (done) {
       this.timeout(3000000);
 
       testSetReqModel.fileInfo = {};
       testSetReqModel.files = [];
-      for (var i = 0; i < 1000; i++) {
-        testSetReqModel.fileInfo['file' + i] = '/Users/jeongjinseok/Downloads/Photo.png';
-        testSetReqModel.files.push('file' + i);
+      for (var i = 0; i < 10; i++) {
+        if(i === 0 || i === 5 || i === 8) {
+          testSetReqModel.fileInfo['file' + i] = '/Users/jeongjinseok/Downloads/genymotion-2.6.0.dmg';
+          testSetReqModel.files.push('file' + i);
+        }else{
+          testSetReqModel.fileInfo['file' + i] = '/Users/jeongjinseok/Downloads/Photo.png';
+          testSetReqModel.files.push('file' + i);
+        }
       }
 
       reqSetPng(

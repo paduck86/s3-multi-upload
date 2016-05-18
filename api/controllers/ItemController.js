@@ -112,6 +112,43 @@ function s3Upload(fileInfo) {
       deferred.reject(err);
     });
 
+  /*Q.fcall(function() {
+    return doS3Upload(fileInfo, files[0]);
+  })
+    .then(function() {
+      return doS3Upload(fileInfo, files[1]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[2]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[3]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[4]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[5]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[6]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[7]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[8]);
+    })
+    .then(function() {
+      return doS3Upload(fileInfo, files[9]);
+    })
+    .then(function() {
+      deferred.resolve();
+    })
+    .catch(function(err) {
+      deferred.reject(err);
+    });*/
+
   return deferred.promise;
 }
 

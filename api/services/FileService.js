@@ -46,7 +46,7 @@ function uploadTemp(req, fileInfo, file) {
 function s3Upload(fileInfo, file) {
   var deferred = Q.defer(),
       s3Dir = fileInfo.disk,
-      s3Path = s3Dir + file,
+      s3Path = s3Dir + file + fileInfo[file].ext,
       localPath = fileInfo[file].fd;
 
   fileInfo.S3.upload(localPath, s3Path, function(err, result) {
